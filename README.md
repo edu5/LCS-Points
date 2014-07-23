@@ -1,4 +1,5 @@
-test
+LCS Fantasy Points Calculator
 ====
 
-testing
+Quick script to calculate fantasy points of a player (EU/NA) given a week
+number and the name of the player.
