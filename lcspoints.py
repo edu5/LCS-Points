@@ -1,9 +1,14 @@
 import json, requests, datetime, time, collections
 
 current_season_url = "http://na.lolesports.com:80/api/gameStatsFantasy.json?tournamentId=%s&dateBegin=%s&dateEnd=%s"
-season_start = datetime.datetime(2014, 05, 19, 0, 0)	#LCS Summer Split Week 1 Date
 one_lcs_week = 604800 									#one week in seconds
 
+
+###########
+
+current_split = "2014 Summer Split"
+season_start = datetime.datetime(2014, 05, 19, 0, 0)	#LCS Summer Split 2014 Week 1 Date
+#LCS Summer Split 2014 Teams
 team_tags = {
 	#NA Teams
 	"C9": "Cloud9 ",
@@ -25,6 +30,8 @@ team_tags = {
 	"MIL": "Millenium",
 	"SHC": "Supa Hot Crew"
 }
+
+####################
 
 def get_epoch_time(dt):
     epoch = datetime.datetime.utcfromtimestamp(0)
@@ -81,13 +88,13 @@ if __name__ == "__main__":
 	else:
 		region = 102
 	
-	week = raw_input("Enter a LCS week number (1 - 11)")
+	week = raw_input("Enter a LCS week number (1 - 11): ")
 	week = int(week)
 	while week < 1 or week > 11:
-		week = raw_input("Invalid week number. (1 - 11)")
+		week = raw_input("Invalid week number. (1 - 11): ")
 		week = int(week)
 	
-	name = raw_input("Enter name of player or team tag (all CAPS): ")
+	name = raw_input("Enter name of player (ex: 'Doublelift') or team tag in uppercase (ex: 'CLG'): ")
 
 	data = get_data_for_week(region, week)
 
@@ -108,7 +115,7 @@ if __name__ == "__main__":
 		for key in game:
 			if not key.find("team"):
 				current_team_name = game[key]['teamName']
-				if team_tags[name] == current_team_name:
+				if name in team_tags and team_tags[name] == current_team_name:
 					score += compute_points_for_team(game[key])
 				
-	print score
+	print "Points for", name, "on Week", week, current_split, ":", score
